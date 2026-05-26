@@ -1,6 +1,6 @@
 {
   "name": "@andygo.dev/emitter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Type-safe wrapper around @nestjs/event-emitter with an error-catching @OnEmitterEvent decorator.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
