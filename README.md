@@ -103,8 +103,8 @@ that doesn't match `AppEvents[key]` is a compile error.
 ### 4. Listen for events
 
 Use `@OnEmitterEvent` instead of `@OnEvent`. Same API, but a listener that
-throws or rejects is logged via `console.error` instead of crashing the
-emitter loop.
+throws or rejects is caught and logged via the configured logger instead of
+crashing the emitter loop.
 
 ```ts
 import { Injectable } from '@nestjs/common';
