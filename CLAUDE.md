@@ -26,12 +26,13 @@ npx jest tests/on-emitter-event.decorator.spec.ts
 ### Publishing
 
 ```bash
-npm run deploy          # patch bump → lint + test + build → git push --follow-tags → npm publish
-npm run deploy:minor    # same for minor bump
-npm run deploy:major    # same for major bump
+npm run bump:patch      # bump version (patch) in package.json only — no git tag, no publish
+npm run bump:minor      # bump version (minor) — no git tag, no publish
+npm run bump:major      # bump version (major) — no git tag, no publish
+npm run publish         # publish current build to npm (triggers prepublishOnly: clean + build)
 ```
 
-`preversion` runs lint + test + build; `postversion` runs `git push --follow-tags && npm publish --access public`. Never run `npm publish` directly.
+`preversion` runs lint + test + build; `postversion` runs `git push --follow-tags && npm publish --access public`. These fire when `npm version` is invoked directly (e.g. during a release worktree bump). The `bump:*` scripts skip these hooks via `--no-git-tag-version`.
 
 ## Architecture
 
