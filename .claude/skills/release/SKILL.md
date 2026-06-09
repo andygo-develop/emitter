@@ -53,11 +53,9 @@ Then run these checks in parallel:
 1. **Up to date** — confirm `origin/<source-branch>` and the local tracking ref (if any) agree. If the remote is ahead of local, note it but do not pull.
 2. **No conflicts** — verify the source branch can be merged into `main` without conflicts:
    ```bash
-   git merge-tree $(git merge-base origin/main origin/<source-branch>) origin/main origin/<source-branch>
+   git merge-tree origin/main origin/<source-branch>
    ```
    If conflicts are found, list the conflicting files and stop.
-3. **Lint** — run the project linter (e.g. `npm run lint`) against the current working tree as a proxy for branch quality. Report findings; do not auto-fix.
-4. **Tests** — run the project test suite (e.g. `npm test`) against the current working tree. If tests fail, report failures and ask the user whether to continue.
 
 ### Step 3: Collect All Changes
 
@@ -65,7 +63,7 @@ Collect diffs and commits between `origin/main` and `origin/<source-branch>` —
 
 ```bash
 git log --oneline origin/main..origin/<source-branch>
-git diff origin/main..origin/<source-branch>
+git diff origin/main...origin/<source-branch>
 ```
 
 Read every commit and every changed file. Build a complete picture of what this release contains before writing the PR description.
@@ -103,7 +101,7 @@ gh pr list --head <source-branch> --base main --json number,url,state
 ```
 
 **If no PR exists** — create one with `gh pr create --base main --head <source-branch>`.
-**If a PR exists** — update its title and body via `gh api repos/{owner}/{repo}/pulls/{number} -X PATCH`.
+**If a PR exists** — update its title and body via `gh pr edit <number> --title "..." --body "..."`.
 
 #### PR Title
 

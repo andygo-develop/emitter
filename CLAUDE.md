@@ -47,7 +47,7 @@ The decorator (`src/decorators/on-emitter-event.decorator.ts`) resolves both at 
 
 ### Decorator wrapper idempotency
 
-`@OnEmitterEvent` injects both logger tokens into the class prototype and wraps `descriptor.value` with an error-catching function. When a class has **multiple** `@OnEmitterEvent` decorators (one per method), each decorator call runs the same wrapping logic — but the wrapper must only be applied once per class (otherwise it double-wraps).
+`@OnEmitterEvent` injects both logger tokens into the class prototype and wraps `descriptor.value` with an error-catching function. A single method may carry **multiple** `@OnEmitterEvent` decorators (one per event type it handles), and stacked decorators all run the same wrapping logic — but the wrapper must be applied only once to the method (otherwise it double-wraps the same handler).
 
 This is guarded by `WRAPPER_ADDED`: a `Symbol` stamped onto the prototype on first decoration. Subsequent decorators on the same class skip the re-wrap.
 
@@ -57,4 +57,4 @@ This is guarded by `WRAPPER_ADDED`: a `Symbol` stamped onto the prototype on fir
 
 ### Test structure
 
-Tests live in `tests/` and use `@nestjs/testing`. Each spec bootstraps a real `TestingModule` with `EmitterModule.forRoot()` — no mocking of the event emitter itself. The `afterEach` always calls `moduleRef.close()` to release listeners between tests.
+Tests live in `tests/` and use `@nestjs/testing`. Each spec bootstraps a real `TestingModule` — with `EmitterModule` (static), `EmitterModule.forRoot()`, or `EmitterModule.forFeature()` depending on what's under test. No mocking of the event emitter itself. Tests call `moduleRef.close()` after each test, either in an `afterEach` hook or inline at the end of each test body.
