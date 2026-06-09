@@ -1,7 +1,7 @@
 ---
 name: release
 description: Create a release PR from a staging branch into main. Never touches the current branch or local working tree changes.
-version: 0.7.0
+version: 0.3.0
 model: sonnet
 ---
 
